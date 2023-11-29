@@ -5,12 +5,13 @@
 +	И сразу после чтения очередной строки из статического буфера закинуть строку в динамический массив строк - двумерный массив чаров, с помощью функции strcpy
 +	Далее вывести все строки в порядке неубывания
 +	И в конце вывести число строк, в котором встречается подстрок part
-	Затем создать огромный буфер, в который можно поместить все строки из массива строк и вывести его. Строки склеивать в порядке ввода пользователем
++	Затем создать огромный буфер, в который можно поместить все строки из массива строк и вывести его. Строки склеивать в порядке ввода пользователем
 */
-/*
+
 #include <iostream>
 using namespace std;
 
+int mystrlen(char* source);
 char* mystrcpy(char* destination, const char* source);
 int mystrcmp(const char* string1, const char* string2);
 const char* mystrstr(const char* string1, const char* string2);
@@ -22,7 +23,7 @@ int main()
 	cout << "Enter strings count: ";
 	cin >> n;
 
-	int gensize = 0, strsize = 1;
+	int gensize = 0, strsize = 0;
 	char** array = new char* [n];
 	char buffer[32];
 
@@ -32,18 +33,19 @@ int main()
 	for (int i = 0; i < n; i++)
 	{
 		cin >> buffer;
-		if (strlen(buffer) > 20)
+		if (mystrlen(buffer) > 20)
 		{
 			cout << "Error! String limit (20) overload!" << endl;
 			return 0;
 		}
-		strsize = strlen(buffer);
-		gensize = gensize + strsize;
-		array[i] = new char[strsize];
+		strsize = mystrlen(buffer);
+		gensize += strsize;
+		array[i] = new char[strsize + 1];
 		mystrcpy(array[i], buffer);
 	}
 
-	char* general = new char[gensize];
+	char* general = new char[gensize + 1];
+	general[0] = '\0';
 
 	// СКЛЕИВАНИЕ СТРОК В ПОРЯДКЕ ВВОДА
 
@@ -78,7 +80,6 @@ int main()
 	cout << "Number of matches in strings: ";
 	for (int i = 0; i < n; i++)
 	{
-		mystrstr(array[i], part);
 		if (mystrstr(array[i], part) != nullptr)
 		{
 			partcnt++;
@@ -97,6 +98,17 @@ int main()
 	delete[] general;
 
 	return 0;
+}
+
+int mystrlen(char* source)
+{
+	int i = 0;
+	while (source[i] != '\0')
+	{
+		i++;
+	}
+
+	return i;
 }
 
 char* mystrcpy(char* destination, const char* source)
@@ -183,4 +195,3 @@ char* mystrcat(char* destptr, const char* srcptr)
 
 	return destptr;
 }
-*/
