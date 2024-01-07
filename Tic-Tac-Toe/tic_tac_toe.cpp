@@ -40,22 +40,24 @@ int humanMove(const vector<char>& board, char human);
 int computerMove(const vector<char> board, char computer);
 void announceWinner(char winner, char computer, char human);
 gameResult announceRestart(char winner, char computer, char human);
+void clearBoard(vector<char>& board);
 
 int main()
 {
 	int move;
+	int restart = 0;
 	const int NUM_SQUARES = 9;
 	vector<char> board(NUM_SQUARES, EMPTY);
 	instructions();
 
-	char human = humanPiece();
-	char computer = opponent(human);
-	char turn = X;
-	displayBoard(board);
-
 	while (true)
 	{
-		while (winner(board) == NO_ONE)
+		char human = humanPiece();
+		char computer = opponent(human);
+		char turn = X;
+		displayBoard(board);
+
+		while (winner(board) == NO_ONE || restart == 1)
 		{
 			if (turn == human)
 			{
@@ -77,6 +79,8 @@ int main()
 			if (askYesNo("\nDo you want to lose again, human?") == 'y')
 			{
 				cout << "\nOkay, I'll give you one more chance.\n";
+				clearBoard(board);
+				restart = 1;
 			}
 			else
 			{
@@ -89,6 +93,8 @@ int main()
 			if (askYesNo("\nIt was a compilation error! Let's play again!") == 'y')
 			{
 				cout << "\nPrepare yourself, human. The battle is about to begin.\n";
+				clearBoard(board);
+				restart = 1;
 			}
 			else
 			{
@@ -101,6 +107,8 @@ int main()
 			if (askYesNo("\nWell, human, let's correct this misunderstanding?") == 'y')
 			{
 				cout << "\nOkay, let's start.\n";
+				clearBoard(board);
+				restart = 1;
 			}
 			else
 			{
@@ -202,7 +210,9 @@ char winner(const vector<char>& board)
 	const int TOTAL_ROWS = 8;
 	for (int row = 0; row < TOTAL_ROWS; row++)
 	{
-		if ((board[WINNING_ROWS[row][0]] != EMPTY) && (board[WINNING_ROWS[row][0]] == board[WINNING_ROWS[row][1]]) && (board[WINNING_ROWS[row][1]] == board[WINNING_ROWS[row][2]]))
+		if ((board[WINNING_ROWS[row][0]] != EMPTY)
+			&& (board[WINNING_ROWS[row][0]] == board[WINNING_ROWS[row][1]])
+			&& (board[WINNING_ROWS[row][1]] == board[WINNING_ROWS[row][2]]))
 		{
 			return board[WINNING_ROWS[row][0]];
 		}
@@ -334,5 +344,13 @@ gameResult announceRestart(char winner, char computer, char human)
 	else
 	{
 		return DRAW;
+	}
+}
+
+void clearBoard(vector<char>& board)
+{
+	for (int i = 0; i < 9; i++)
+	{
+		board[i] = EMPTY;
 	}
 }
