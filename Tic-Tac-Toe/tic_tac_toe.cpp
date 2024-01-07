@@ -59,6 +59,7 @@ int main()
 
 		while (winner(board) == NO_ONE || restart == 1)
 		{
+			restart = 0;
 			if (turn == human)
 			{
 				move = humanMove(board, human);
