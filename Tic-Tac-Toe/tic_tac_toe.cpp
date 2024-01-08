@@ -45,7 +45,7 @@ void clearBoard(vector<char>& board);
 int main()
 {
 	int move;
-	int restart = 0;
+	bool restart = false;
 	const int NUM_SQUARES = 9;
 	vector<char> board(NUM_SQUARES, EMPTY);
 	instructions();
@@ -57,9 +57,9 @@ int main()
 		char turn = X;
 		displayBoard(board);
 
-		while (winner(board) == NO_ONE || restart == 1)
+		while (winner(board) == NO_ONE || restart == true)
 		{
-			restart = 0;
+			restart = false;
 			if (turn == human)
 			{
 				move = humanMove(board, human);
@@ -81,7 +81,7 @@ int main()
 			{
 				cout << "\nOkay, I'll give you one more chance.\n";
 				clearBoard(board);
-				restart = 1;
+				restart = true;
 			}
 			else
 			{
@@ -95,7 +95,7 @@ int main()
 			{
 				cout << "\nPrepare yourself, human. The battle is about to begin.\n";
 				clearBoard(board);
-				restart = 1;
+				restart = true;
 			}
 			else
 			{
@@ -109,7 +109,7 @@ int main()
 			{
 				cout << "\nOkay, let's start.\n";
 				clearBoard(board);
-				restart = 1;
+				restart = true;
 			}
 			else
 			{
@@ -241,7 +241,7 @@ int humanMove(const vector<char>& board, char human)
 		move = askNumber("\n\nWhere will you move?", (board.size() - 1));
 	}
 
-	cout << "Fine...\n";
+	cout << "\nFine...\n";
 	return move;
 }
 
@@ -314,20 +314,20 @@ void announceWinner(char winner, char computer, char human)
 {
 	if (winner == computer)
 	{
-		cout << "\n" << winner << "'s won!\n";
-		cout << "As I predicted, human, I am triumphant once more - proof\n";
+		cout << "\n\n" << winner << "'s won!\n";
+		cout << "\nAs I predicted, human, I am triumphant once more - proof\n";
 		cout << "that computers are superior to humans in all regards.\n";
 	}
 	else if (winner == human)
 	{
-		cout << "\n" << winner << "'s won...\n";
-		cout << "No, no! It cannot be! Somehow you tricked me, human.\n";
+		cout << "\n\n" << winner << "'s won...\n";
+		cout << "\nNo, no! It cannot be! Somehow you tricked me, human.\n";
 		cout << "But never again! I, the computer, so swear it!\n";
 	}
 	else
 	{
-		cout << "\n" << "It's a tie.\n";
-		cout << "You were most lucky, human, and somehow managed to tie me.\n";
+		cout << "\n\n" << "It's a tie.\n";
+		cout << "\nYou were most lucky, human, and somehow managed to tie me.\n";
 		cout << "Celebrate... for this is the best you will ever achieve.\n";
 	}
 }
